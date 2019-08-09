@@ -10,18 +10,23 @@
     <div class="login">
       <img src="@/assets/logo.png" />
       <h4 :class="{'light-text' : isDarkMode, 'dark-text' : !isDarkMode}">Sign in</h4>
-
-      <input
-        type="email"
-        placeholder="Email"
-        :class="{'light-field' : isDarkMode, 'dark-field' : !isDarkMode}"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        :class="{'light-field' : isDarkMode, 'dark-field' : !isDarkMode}"
-      />
-      <button>Sign In</button>
+      <form @submit.prevent="onSubmit">
+        <input
+          type="email"
+          placeholder="Email"
+          :class="{'light-field' : isDarkMode, 'dark-field' : !isDarkMode}"
+          v-model="email"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          :class="{'light-field' : isDarkMode, 'dark-field' : !isDarkMode}"
+          v-model="password"
+        />
+        <button>Sign In</button>
+      </form>
       <router-link
         to="/recover"
         :class="{'light-link': isDarkMode, 'dark-link' : !isDarkMode}"
@@ -30,10 +35,17 @@
     </div>
   </div>
 </template>
-
 <script>
+import { auth } from "@/main";
+
 export default {
   name: "SignIn",
+  data() {
+    return {
+      email: null,
+      password: null
+    };
+  },
   computed: {
     isDarkMode() {
       return this.$store.getters.isDarkMode;
@@ -42,6 +54,18 @@ export default {
   methods: {
     toggleDarkMode() {
       this.$store.commit("toggleDarkMode");
+    },
+    onSubmit() {
+      const email = this.email;
+      const password = this.password;
+      auth
+        .login(email, password, true)
+        .then(response => {
+          this.$router.replace("/");
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
     }
   }
 };
