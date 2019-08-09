@@ -9,7 +9,7 @@
 @import "@/global-styles/typography.scss";
 
 body {
-  background-color: $dark-blue;
+  background-color: darkblue;
 }
 
 h1 {
@@ -17,7 +17,7 @@ h1 {
 }
 
 p {
-  @include large-text-bold($purple);
+  @include large-text-bold(purple);
 }
 
 #app {
@@ -25,13 +25,13 @@ p {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: $white;
+  color: white;
 }
 #nav {
   padding: 30px;
   a {
     font-weight: bold;
-    color: $white;
+    color: white;
     &.router-link-exact-active {
       color: #42b983;
     }
